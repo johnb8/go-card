@@ -1,12 +1,13 @@
+//go:build windows
 // +build windows
 
 package pcsc
 
 import (
-    "fmt"
-    "bytes"
-    "unsafe"
-    "syscall"
+	"bytes"
+	"fmt"
+	"syscall"
+	"unsafe"
 )
 
 type readerState struct {
@@ -186,7 +187,7 @@ func (ww *WinscardWrapper) CardConnect(ctx uintptr, reader string) (
     rv, _, _ := ww.cardConnect.Call(
         ctx,
         uintptr(unsafe.Pointer(unsafe.Pointer(&ww.stringToBytes(reader)[0]))),
-        uintptr(SCARD_SHARE_SHARED), uintptr(SCARD_PROTOCOL_ANY),
+        uintptr(SCARD_SHARE_DIRECT), uintptr(SCARD_PROTOCOL_ANY),
         uintptr(unsafe.Pointer(&card)),
         uintptr(unsafe.Pointer(&activeProtocol)),
     )
